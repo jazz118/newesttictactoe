@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="testingSomething.css">
+    </head>
+    <body>
+        <header>
+            <h1>Tic Tac Toe</h1>
+        </header>
+        <div class="clear"></div>
+        <div id="wholeContainer" class="container"></div>
+
+        
+        <script>
+            let playerBool = true; // X = TRUE, O = FALSE!
+            let playerImages = [
+                '<img class="red" src="red_x.png">',
+                '<img class="black" src="blue_circle.png">'
+            ]
+
+            let wholeContainer = document.getElementById('wholeContainer');
+            for (let i = 0; i < 9; i++) {
+                console.log(i);
+                wholeContainer.innerHTML += "<div id='"+i+"' class='grid' onclick='show("+i+")'></div>";
+            }
+
+            function show(index) {
+                let box = document.getElementById(index);
+                box.style.backgroundColor='gray';
+                box.style.borderColor = 'black';
+
+                if (box.classList.contains('true') || box.classList.contains('false')) {
+                    return
+                }
+
+                box.innerHTML += playerImages[+!playerBool]
+
+                box.classList.add(playerBool);
+                playerBool = !playerBool;
+
+                let winningPlayer = checkMove();
+
+                let winningMessage = `<h2>PLAYER ${winningPlayer ? "X" : "O"} WON!</h1>`
+                //let winningMessage = `<h2>PLAYER ${winningPlayer ? "X" : "O"} WON!</h1>`
+
+                //winningMessage.style.color = ' white';
+
+                //box.innerHTML.style.backgroundColor = 'white';
+                let winText =winningMessage + box.innerHTML
+                //winText.classList.add('winningBox');
+                //box.innerHTML.style.backgroundColor = 'blue';
+                if (winningPlayer != null) {
+                    wholeContainer.style.backgroundColor = 'gray';
+                    wholeContainer.style.width = '80%';
+                    wholeContainer.style.height = '400px';
+                    wholeContainer.style.marginLeft = '10%';
+                    wholeContainer.innerHTML = winText;
+                    wholeContainer.style.border = '4px solid white';                    
+                }
+                if (winningPlayer == true) {
+                    wholeContainer.style.color = 'red';
+
+                }
+
+                if (winningPlayer == false) {
+                    wholeContainer.style.color = 'blue';
+
+
+                }
+            }
+
+            function checkMove() {
+                let boxes = wholeContainer.querySelectorAll('*');
+
+                //boxes[0].classList
+                //boxes[0].id
+
+                let magicSquareArray = [
+                    4, 9, 2,
+                    3, 5, 7,
+                    8, 1, 6
+                ];
+
+                let totals = [0, 0];
+                boxes.forEach(box => {
+                    if (box.classList.contains('true')) {
+                        totals[0] += magicSquareArray[box.id];
+                    }
+                    if (box.classList.contains('false')) {
+                        totals[1] += magicSquareArray[box.id];
+                    }
+                });
+
+                console.log(totals);
+
+                if (totals[0] == 15) {
+                    return true
+                }
+                if (totals[1] == 15) {
+                    return false
+                }
+            }
+        </script>
+    </body>
+</html>
